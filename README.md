@@ -1,2 +1,2 @@
 # raspberrypi-bin
-My own scripts for my raspberry pi
+My personal utility scripts for my Raspberry Pi
