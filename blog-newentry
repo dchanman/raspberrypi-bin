@@ -1,0 +1,38 @@
+#!/bin/bash
+# This script creates a new blog entry in the Pelican contents folder and
+# populates it with a basic template.
+#
+# Author: Derek Chan
+# Date: March 15, 2015
+
+# Change these variables as required
+PELICAN_CONTENTS_DIR="/home/derek/pelican/content"
+AUTHOR="Derek Chan"
+
+# Make sure that at least one argument is provided
+if [ $# -lt 1 ]; then
+    echo "Usage: $0 [title] [category]+"
+    exit
+fi
+
+# Concatenate all categories into a comma separated list
+FIRST=1
+CATEGORIES=" "
+for i in "${@:2}"; do
+    if [ $FIRST -eq 1 ]; then
+	FIRST=0
+	CATEGORIES=" $i"
+    else
+	CATEGORIES="$CATEGORIES, $i"
+    fi
+done	
+
+# Create a new blog entry
+UNDERSCORED_TITLE=`echo $1 | sed "s/ /_/g"`
+NEWFILE_NAME=`date "+%F-$UNDERSCORED_TITLE"`
+DATE=`date "+%Y-%M-%D %H:%M"`
+printf "Title: $1
+Date: $DATE
+Category:$CATEGORIES
+\n" >> "$PELICAN_CONTENTS_DIR/$NEWFILE_NAME.md"
+
